@@ -31,6 +31,7 @@ initialModel flags url key =
 type Msg
     = Increment
     | Decrement
+    | Home
     | LinkClicked Browser.UrlRequest
     | UrlChanged Url.Url
 
@@ -50,6 +51,9 @@ update msg model =
         UrlChanged _ ->
             ( { model | value = model.value - 1 }, Cmd.none )
 
+        Home ->
+            ( model, Nav.load "/" )
+
 
 
 ---- VIEW ----
@@ -59,17 +63,17 @@ view : Model -> Browser.Document Msg
 view model =
     { title = "Homepage"
     , body =
-        [ div [ class "container", style "background-color" "#f2f2f2" ]
-            [ header []
-                [ h1 [] [ text "Henrik Aasen Kjeldsberg's Homepage" ]
-                , div [] [ text ("Number is " ++ String.fromInt model.value) ]
-                , div []
-                    [ button [ onClick Decrement ] [ text "-" ]
-                    , text (String.fromInt model.value)
-                    , button [ onClick Increment ] [ text "+" ]
-                    ]
+        [ header [ class "header" ]
+            [ h1 [ onClick Home ] [ text "Henrik Kjeldsberg" ]
+            , div [] [ text ("Number is " ++ String.fromInt model.value) ]
+            , div []
+                [ button [ onClick Decrement ] [ text "-" ]
+                , text (String.fromInt model.value)
+                , button [ onClick Increment ] [ text "+" ]
                 ]
             ]
+        , div [ class "container" ] []
+        , footer [ class "footer" ] []
         ]
     }
 
